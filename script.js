@@ -11,8 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             console.log("Data ladattu onnistuneesti:", data);
             
-            // Suoritetaan jokainen funktio omassa try-catchissaan,
-            // jotta yksi virhe ei pysäytä koko sivua.
+            // 1. Piilotetaan "Ladataan..." -ilmoitus
+            const loadingEl = document.getElementById('loading');
+            if (loadingEl) {
+                loadingEl.style.display = 'none';
+            }
+            
+            // 2. Suoritetaan renderöinnit turvallisesti
             try { renderStats(data); } catch (e) { console.error("Virhe renderStats:", e); }
             try { renderStandings(data); } catch (e) { console.error("Virhe renderStandings:", e); }
             try { renderPredictedStandings(data); } catch (e) { console.error("Virhe renderPredictedStandings:", e); }
@@ -21,10 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(error => {
             console.error("Virhe ladattaessa dataa:", error);
-            const standingsEl = document.getElementById('standings-container');
-            if (standingsEl) {
-                standingsEl.innerHTML = 
-                    '<p style="color: red;">Datan lataus epäonnistui! Varmista että data.json löytyy ja on oikeassa muodossa.</p>';
+            const loadingEl = document.getElementById('loading');
+            if (loadingEl) {
+                loadingEl.innerHTML = '<p style="color: red;">Datan lataus epäonnistui! Varmista että data.json löytyy ja on oikeassa muodossa.</p>';
             }
         });
 });
@@ -61,10 +65,14 @@ function renderStats(data) {
     }
 }
 
-// 1. Sarjataulukko
 function renderStandings(data) {
     const container = document.getElementById('standings-container');
-    if (!container || !data.standings) return;
+    if (!container) return;
+
+    if (!data.standings || data.standings.length === 0) {
+        container.innerHTML = "<p>Ei sarjataulukkotietoja saatavilla.</p>";
+        return;
+    }
 
     let html = '';
     data.standings.forEach((item, index) => {
@@ -78,13 +86,15 @@ function renderStandings(data) {
     container.innerHTML = html;
 }
 
-// 2. Sarjataulukko ennusteella
 function renderPredictedStandings(data) {
     const container = document.getElementById('predicted-standings-container');
     if (!container) return;
 
     const list = data.predicted_standings || data.standings;
-    if (!list) return;
+    if (!list || list.length === 0) {
+        container.innerHTML = "<p>Ei ennustetaulukkotietoja saatavilla.</p>";
+        return;
+    }
 
     let html = '';
     list.forEach((item, index) => {
@@ -98,7 +108,6 @@ function renderPredictedStandings(data) {
     container.innerHTML = html;
 }
 
-// 3. Ottelut
 function renderMatches(data) {
     const container = document.getElementById('matches-container');
     if (!container || !data.matches) return;
@@ -129,7 +138,7 @@ function renderMatches(data) {
         (data.players || []).forEach(p => {
             const pred = (m.predictions && m.predictions[p]) ? m.predictions[p] : "-";
             const isCorrect = m.result && m.result !== "" && pred === m.result;
-            const predClass = isCorrect ? 'style="color: var(--accent-gold); font-weight: bold;"' : '';
+            const predClass = isCorrect ? 'style="color: var(--accent-gold, #ffd700); font-weight: bold;"' : '';
             html += `<td ${predClass}>${pred}</td>`;
         });
         html += `</tr>`;
@@ -139,7 +148,6 @@ function renderMatches(data) {
     container.innerHTML = html;
 }
 
-// 4. Muut veikkaukset
 function renderOtherPredictions(data) {
     const container = document.getElementById('other-container');
     if (!container || !data.other_predictions) return;

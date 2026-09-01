@@ -10,16 +10,22 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(data => {
             console.log("Data ladattu onnistuneesti:", data);
-            renderStats(data);
-            renderStandings(data);
-            renderPredictedStandings(data);
-            renderMatches(data);
-            renderOtherPredictions(data);
+            
+            // Suoritetaan jokainen funktio omassa try-catchissaan,
+            // jotta yksi virhe ei pysäytä koko sivua.
+            try { renderStats(data); } catch (e) { console.error("Virhe renderStats:", e); }
+            try { renderStandings(data); } catch (e) { console.error("Virhe renderStandings:", e); }
+            try { renderPredictedStandings(data); } catch (e) { console.error("Virhe renderPredictedStandings:", e); }
+            try { renderMatches(data); } catch (e) { console.error("Virhe renderMatches:", e); }
+            try { renderOtherPredictions(data); } catch (e) { console.error("Virhe renderOtherPredictions:", e); }
         })
         .catch(error => {
             console.error("Virhe ladattaessa dataa:", error);
-            document.getElementById('standings-container').innerHTML = 
-                '<p style="color: red;">Datan lataus epäonnistui! Varmista että data.json löytyy ja on oikeassa muodossa.</p>';
+            const standingsEl = document.getElementById('standings-container');
+            if (standingsEl) {
+                standingsEl.innerHTML = 
+                    '<p style="color: red;">Datan lataus epäonnistui! Varmista että data.json löytyy ja on oikeassa muodossa.</p>';
+            }
         });
 });
 
@@ -39,34 +45,40 @@ function switchTab(tabName, evt) {
 
 function renderStats(data) {
     if (data.players) {
-        document.getElementById('stat-players').textContent = data.players.length;
+        const el = document.getElementById('stat-players');
+        if (el) el.textContent = data.players.length;
     }
     if (data.matches) {
         const played = data.matches.filter(m => m.result && m.result !== "").length;
-        document.getElementById('stat-matches').textContent = `${played} / ${data.matches.length}`;
+        const el = document.getElementById('stat-matches');
+        if (el) el.textContent = `${played} / ${data.matches.length}`;
     }
     if (data.predicted_standings && data.predicted_standings.length > 0) {
-        document.getElementById('stat-top-points').textContent = `${data.predicted_standings[0].points.toFixed(1)} p`;
+        const first = data.predicted_standings[0];
+        const pts = (first && typeof first.points === 'number') ? first.points.toFixed(1) : "0.0";
+        const el = document.getElementById('stat-top-points');
+        if (el) el.textContent = `${pts} p`;
     }
 }
 
-// 1. Sarjataulukko (Pelkät ottelut)
+// 1. Sarjataulukko
 function renderStandings(data) {
     const container = document.getElementById('standings-container');
     if (!container || !data.standings) return;
 
     let html = '';
     data.standings.forEach((item, index) => {
+        const pts = typeof item.points === 'number' ? item.points.toFixed(1) : "0.0";
         html += `
             <div class="standing-row">
-                <div class="standing-player">#${index + 1} ${item.player}</div>
-                <div class="standing-points">${item.points.toFixed(1)} p</div>
+                <div class="standing-player">#${index + 1} ${item.player || '-'}</div>
+                <div class="standing-points">${pts} p</div>
             </div>`;
     });
     container.innerHTML = html;
 }
 
-// 2. Sarjataulukko ennusteella (Ottelut + Muut veikkaukset)
+// 2. Sarjataulukko ennusteella
 function renderPredictedStandings(data) {
     const container = document.getElementById('predicted-standings-container');
     if (!container) return;
@@ -76,10 +88,11 @@ function renderPredictedStandings(data) {
 
     let html = '';
     list.forEach((item, index) => {
+        const pts = typeof item.points === 'number' ? item.points.toFixed(1) : "0.0";
         html += `
             <div class="standing-row">
-                <div class="standing-player">#${index + 1} ${item.player}</div>
-                <div class="standing-points">${item.points.toFixed(1)} p</div>
+                <div class="standing-player">#${index + 1} ${item.player || '-'}</div>
+                <div class="standing-points">${pts} p</div>
             </div>`;
     });
     container.innerHTML = html;
@@ -103,16 +116,19 @@ function renderMatches(data) {
     html += `</tr></thead><tbody>`;
 
     data.matches.forEach(m => {
-        const resultBadge = m.result ? `<span class="badge badge-played">${m.result}</span>` : `<span class="badge badge-upcoming">-</span>`;
+        const resultBadge = (m.result && m.result !== "") 
+            ? `<span class="badge badge-played">${m.result}</span>` 
+            : `<span class="badge badge-upcoming">-</span>`;
+            
         html += `
             <tr>
                 <td>${m.date || '-'}</td>
-                <td>${m.homeTeam} - ${m.awayTeam}</td>
+                <td>${m.homeTeam || ''} - ${m.awayTeam || ''}</td>
                 <td>${resultBadge}</td>`;
 
         (data.players || []).forEach(p => {
             const pred = (m.predictions && m.predictions[p]) ? m.predictions[p] : "-";
-            const isCorrect = m.result && pred === m.result;
+            const isCorrect = m.result && m.result !== "" && pred === m.result;
             const predClass = isCorrect ? 'style="color: var(--accent-gold); font-weight: bold;"' : '';
             html += `<td ${predClass}>${pred}</td>`;
         });
@@ -123,7 +139,7 @@ function renderMatches(data) {
     container.innerHTML = html;
 }
 
-// 4. Muut veikkaukset (Oikea vastaus / Tilanne heti 2. sarakkeessa)
+// 4. Muut veikkaukset
 function renderOtherPredictions(data) {
     const container = document.getElementById('other-container');
     if (!container || !data.other_predictions) return;
@@ -143,7 +159,7 @@ function renderOtherPredictions(data) {
         const leader = item.current_leader ? item.current_leader : "-";
         html += `
             <tr>
-                <td><strong>${item.question}</strong></td>
+                <td><strong>${item.question || ''}</strong></td>
                 <td><span class="badge badge-played">${leader}</span></td>`;
 
         (data.players || []).forEach(p => {

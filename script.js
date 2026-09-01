@@ -17,7 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initApp(data) {
+    updateTopStats(data);
     renderStandings(data);
+    renderPredictedStandings(data);
     renderMatches(data);
     renderOtherPredictions(data);
 }
@@ -31,6 +33,53 @@ function showError(message) {
 }
 
 /**
+ * Päivittää sivun yläosan tilastolaatikot (Pelaajat, Ottelut, Kärkipisteet)
+ */
+function updateTopStats(data) {
+    const players = data.players || [];
+    const matches = data.matches || [];
+
+    // 1. Pelaajamäärä
+    const playerStatEl = document.querySelector('.stat-card:nth-child(1) .stat-value, #player-count');
+    if (playerStatEl) {
+        playerStatEl.textContent = players.length;
+    }
+
+    // 2. Ottelutilasto (pelatut / kaikki)
+    let playedCount = 0;
+    matches.forEach(m => {
+        if (m.result && m.result.trim() !== '') {
+            playedCount++;
+        }
+    });
+
+    const matchStatEl = document.querySelector('.stat-card:nth-child(2) .stat-value, #match-count');
+    if (matchStatEl) {
+        matchStatEl.textContent = `${playedCount} / ${matches.length}`;
+    }
+
+    // 3. Kärkipisteet
+    const scores = {};
+    players.forEach(p => scores[p] = 0);
+
+    matches.forEach(m => {
+        if (m.result && m.result.trim() !== '' && m.predictions) {
+            Object.keys(m.predictions).forEach(p => {
+                if (m.predictions[p] === m.result) {
+                    scores[p] = (scores[p] || 0) + 1;
+                }
+            });
+        }
+    });
+
+    const maxPoints = Math.max(0, ...Object.values(scores));
+    const topStatEl = document.querySelector('.stat-card:nth-child(3) .stat-value, #top-score');
+    if (topStatEl) {
+        topStatEl.textContent = `${maxPoints.toFixed(1)} p`;
+    }
+}
+
+/**
  * Laskee ja renderöi sarjataulukon automaattisesti ottelutuloksista
  */
 function renderStandings(data) {
@@ -40,17 +89,13 @@ function renderStandings(data) {
     const players = data.players || [];
     const matches = data.matches || [];
 
-    // Jos JSON sisältää valmiin standings-taulukon, käytetään sitä
     if (data.standings && Array.isArray(data.standings) && data.standings.length > 0) {
         renderStandingsList(container, data.standings);
         return;
     }
 
-    // Muussa tapauksessa lasketaan pisteet automaattisesti tuloksista
     const scores = {};
-    players.forEach(player => {
-        scores[player] = 0;
-    });
+    players.forEach(player => scores[player] = 0);
 
     let playedMatchesCount = 0;
 
@@ -65,7 +110,6 @@ function renderStandings(data) {
         }
     });
 
-    // Luodaan järjestetty lista pisteiden mukaan (eniten pisteitä ensin)
     const standingsList = players
         .map(player => ({
             player: player,
@@ -77,13 +121,52 @@ function renderStandings(data) {
 }
 
 /**
+ * Renderöi Sarjataulukko ennusteella -osion
+ */
+function renderPredictedStandings(data) {
+    const container = document.getElementById('predicted-standings-container');
+    if (!container) return;
+
+    const players = data.players || [];
+    const matches = data.matches || [];
+
+    // Jos ennusteet lasketaan maksimipisteiden perusteella (nykyiset pisteet + jäljellä olevat ottelut)
+    const scores = {};
+    players.forEach(p => scores[p] = 0);
+
+    matches.forEach(match => {
+        if (match.result && match.result.trim() !== '' && match.predictions) {
+            Object.keys(match.predictions).forEach(p => {
+                if (match.predictions[p] === match.result) {
+                    scores[p] = (scores[p] || 0) + 1;
+                }
+            });
+        } else {
+            // Otteluita ei vielä pelattu -> lasketaan maksimipisteet
+            players.forEach(p => {
+                scores[p] = (scores[p] || 0) + 1;
+            });
+        }
+    });
+
+    const predictedList = players
+        .map(player => ({
+            player: player,
+            points: scores[player] || 0
+        }))
+        .sort((a, b) => b.points - a.points);
+
+    renderStandingsList(container, predictedList);
+}
+
+/**
  * Apufunktio sarjataulukon HTML-muodostukseen
  */
 function renderStandingsList(container, standingsList, playedMatchesCount = null) {
     let html = '';
 
     if (playedMatchesCount === 0) {
-        html += `<p class="info-text">Ei pelattuja otteluita vielä. Sarjataulukko päivittyy siten mukaisesti, kun tuloksia syötetään.</p>`;
+        html += `<p class="info-text">Ei pelattuja otteluita vielä. Sarjataulukko päivittyy, kun ottelutuloksia syötetään.</p>`;
     }
 
     html += '<div class="standings-table">';
@@ -151,7 +234,7 @@ function renderMatches(data) {
 }
 
 /**
- * Renderöi Muut veikkaukset -osion turvallisesti
+ * Renderöi Muut veikkaukset -osion
  */
 function renderOtherPredictions(data) {
     const container = document.getElementById('other-predictions-container');

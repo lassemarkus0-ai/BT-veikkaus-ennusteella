@@ -11,13 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             console.log("Data ladattu onnistuneesti:", data);
             
-            // 1. Piilotetaan "Ladataan..." -ilmoitus
+            // 1. Piilotetaan latausilmoitus
             const loadingEl = document.getElementById('loading');
             if (loadingEl) {
                 loadingEl.style.display = 'none';
             }
             
-            // 2. Suoritetaan renderöinnit turvallisesti
+            // 2. Renderöidään osiot
             try { renderStats(data); } catch (e) { console.error("Virhe renderStats:", e); }
             try { renderStandings(data); } catch (e) { console.error("Virhe renderStandings:", e); }
             try { renderPredictedStandings(data); } catch (e) { console.error("Virhe renderPredictedStandings:", e); }
@@ -33,13 +33,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 });
 
+// KORJATTU TAB-FUNKTIO: Vaihtaa näkyvyyden suoraan style.display-määritteellä
 function switchTab(tabName, evt) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+        content.style.display = 'none';
+    });
 
     const selectedTab = document.getElementById(`tab-${tabName}`);
     if (selectedTab) {
         selectedTab.classList.add('active');
+        selectedTab.style.display = 'block';
     }
 
     if (evt && evt.target) {

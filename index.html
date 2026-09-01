@@ -82,9 +82,10 @@
         .tabs {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
@@ -116,7 +117,7 @@
             display: block;
         }
 
-        /* Sarjataulukko */
+        /* Sarjataulukot */
         .standings-list {
             display: flex;
             flex-direction: column;
@@ -144,9 +145,10 @@
             font-size: 16px;
         }
 
-        /* Ottelu- ja Muut veikkaukset -taulukot */
+        /* Taulukot */
         .table-wrapper {
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -178,16 +180,6 @@
             min-width: 220px;
         }
 
-        .col-date {
-            white-space: nowrap;
-            color: var(--text-muted);
-        }
-
-        .col-match {
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
         .badge {
             font-size: 11px;
             padding: 3px 8px;
@@ -195,29 +187,38 @@
             text-transform: uppercase;
             font-weight: bold;
             display: inline-block;
+            white-space: nowrap;
         }
 
         .badge-played { background-color: rgba(5, 150, 105, 0.2); color: #34d399; }
         .badge-upcoming { background-color: rgba(37, 99, 235, 0.2); color: #60a5fa; }
 
-        .table-predictions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
+        /* Mobiilioptimointi */
+        @media (max-width: 768px) {
+            body { padding: 12px 8px; }
+            .header h1 { font-size: 24px; }
+            .header p { font-size: 13px; }
+            
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+                margin-bottom: 16px;
+            }
 
-        .pred-tag {
-            background-color: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-color);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
+            .stat-card { padding: 10px 6px; text-align: center; }
+            .stat-value { font-size: 16px; }
+            .stat-label { font-size: 11px; }
 
-        .pred-tag.correct {
-            border-color: var(--accent-gold);
-            background-color: rgba(245, 158, 11, 0.15);
-            color: var(--accent-gold);
+            .tabs { gap: 4px; margin-bottom: 14px; }
+            .tab-btn { font-size: 12px; padding: 6px 8px; }
+
+            .table-wrapper { width: 100%; overflow-x: auto; }
+            .matches-table, .other-table { white-space: nowrap; }
+            .matches-table th, .matches-table td,
+            .other-table th, .other-table td {
+                padding: 8px 10px;
+                font-size: 13px;
+            }
         }
     </style>
 </head>
@@ -244,14 +245,21 @@
             </div>
         </div>
 
+        <!-- Välilehdet -->
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('standings')">Sarjataulukko</button>
-            <button class="tab-btn" onclick="switchTab('matches')">Ottelut</button>
-            <button class="tab-btn" onclick="switchTab('other')">Muut veikkaukset</button>
+            <button class="tab-btn active" onclick="switchTab('standings', event)">Sarjataulukko</button>
+            <button class="tab-btn" onclick="switchTab('predicted-standings', event)">Sarjataulukko ennusteella</button>
+            <button class="tab-btn" onclick="switchTab('matches', event)">Ottelut</button>
+            <button class="tab-btn" onclick="switchTab('other', event)">Muut veikkaukset</button>
         </div>
 
+        <!-- Välilehtien sisällöt -->
         <div id="tab-standings" class="tab-content active">
             <div id="standings-container" class="standings-list">Ladataan...</div>
+        </div>
+
+        <div id="tab-predicted-standings" class="tab-content">
+            <div id="predicted-standings-container" class="standings-list">Ladataan...</div>
         </div>
 
         <div id="tab-matches" class="tab-content">
@@ -263,6 +271,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
 </body>
 </html>

@@ -1,21 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Alustetaan välilehtien vaihto
     initTabs();
 
-    // Ladataan data.json-tiedosto
-    fetch('data.json')
+    // Ladataan data.json aina tuoreena
+    fetch('./data.json?v=' + new Date().getTime())
         .then(response => {
             if (!response.ok) {
-                throw new Error('Verkkovirhe ladattaessa data.json-tiedostoa');
+                throw new Error('Tiedostoa data.json ei löytynyt tai verkkovirhe.');
             }
             return response.json();
         })
         .then(data => {
+            console.log('Ladattu data:', data); // Voit tarkistaa tämän selaimen konsolista (F12)
             initApp(data);
         })
         .catch(error => {
-            console.error('Virhe datan latauksessa:', error);
-            showError('Virhe ladattaessa tietoja. Tarkista data.json-tiedosto.');
+            console.error('Virhe:', error);
+            showError('Virhe ladattaessa tietoja. Varmista että data.json on samassa kansiossa.');
         });
 });
 
@@ -51,34 +51,34 @@ function showError(message) {
     const containers = ['standings-container', 'predicted-standings-container', 'matches-container', 'other-predictions-container'];
     containers.forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.innerHTML = `<p class="error-text">${message}</p>`;
+        if (el) el.innerHTML = `<p class="error-text" style="color: #ff6b6b; padding: 10px;">${message}</p>`;
     });
 }
 
 /**
- * Päivittää yläosan tilastoruudut
+ * Päivittää yläosan tilastolaatikot
  */
 function updateTopStats(data) {
     const players = data.players || [];
     const matches = data.matches || [];
 
     // 1. Pelaajamäärä
-    const playerStatEl = document.getElementById('player-count');
-    if (playerStatEl) {
-        playerStatEl.textContent = players.length;
+    const playerEl = document.getElementById('player-count');
+    if (playerEl) {
+        playerEl.textContent = players.length;
     }
 
-    // 2. Pelatut ottelut
+    // 2. Ottelutilasto
     let playedCount = 0;
     matches.forEach(m => {
-        if (m.result && m.result.trim() !== '') {
+        if (m.result && String(m.result).trim() !== '') {
             playedCount++;
         }
     });
 
-    const matchStatEl = document.getElementById('match-count');
-    if (matchStatEl) {
-        matchStatEl.textContent = `${playedCount} / ${matches.length}`;
+    const matchEl = document.getElementById('match-count');
+    if (matchEl) {
+        matchEl.textContent = `${playedCount} / ${matches.length}`;
     }
 
     // 3. Kärkipisteet
@@ -86,7 +86,7 @@ function updateTopStats(data) {
     players.forEach(p => scores[p] = 0);
 
     matches.forEach(m => {
-        if (m.result && m.result.trim() !== '' && m.predictions) {
+        if (m.result && String(m.result).trim() !== '' && m.predictions) {
             Object.keys(m.predictions).forEach(p => {
                 if (m.predictions[p] === m.result) {
                     scores[p] = (scores[p] || 0) + 1;
@@ -96,14 +96,14 @@ function updateTopStats(data) {
     });
 
     const maxPoints = Math.max(0, ...Object.values(scores));
-    const topStatEl = document.getElementById('top-score');
-    if (topStatEl) {
-        topStatEl.textContent = `${maxPoints.toFixed(1)} p`;
+    const topEl = document.getElementById('top-score');
+    if (topEl) {
+        topEl.textContent = `${maxPoints.toFixed(1)} p`;
     }
 }
 
 /**
- * Renderöi toteutuneen sarjataulukon
+ * Sarjataulukko
  */
 function renderStandings(data) {
     const container = document.getElementById('standings-container');
@@ -118,7 +118,7 @@ function renderStandings(data) {
     let playedMatchesCount = 0;
 
     matches.forEach(match => {
-        if (match.result && match.result.trim() !== '' && match.predictions) {
+        if (match.result && String(match.result).trim() !== '' && match.predictions) {
             playedMatchesCount++;
             Object.keys(match.predictions).forEach(p => {
                 if (match.predictions[p] === match.result) {
@@ -139,7 +139,7 @@ function renderStandings(data) {
 }
 
 /**
- * Renderöi ennustetaulukon
+ * Sarjataulukko ennusteella
  */
 function renderPredictedStandings(data) {
     const container = document.getElementById('predicted-standings-container');
@@ -152,7 +152,7 @@ function renderPredictedStandings(data) {
     players.forEach(p => scores[p] = 0);
 
     matches.forEach(match => {
-        if (match.result && match.result.trim() !== '' && match.predictions) {
+        if (match.result && String(match.result).trim() !== '' && match.predictions) {
             Object.keys(match.predictions).forEach(p => {
                 if (match.predictions[p] === match.result) {
                     scores[p] = (scores[p] || 0) + 1;
@@ -175,9 +175,6 @@ function renderPredictedStandings(data) {
     renderStandingsList(container, predictedList);
 }
 
-/**
- * Apufunktio sarjataulukon HTML-muodostukseen
- */
 function renderStandingsList(container, standingsList, playedMatchesCount = null) {
     let html = '';
 
@@ -201,7 +198,7 @@ function renderStandingsList(container, standingsList, playedMatchesCount = null
 }
 
 /**
- * Renderöi ottelut
+ * Ottelulista
  */
 function renderMatches(data) {
     const container = document.getElementById('matches-container');
@@ -215,7 +212,7 @@ function renderMatches(data) {
 
     let html = '';
     matches.forEach(match => {
-        const isFinished = match.result && match.result.trim() !== '';
+        const isFinished = match.result && String(match.result).trim() !== '';
         const resultText = isFinished ? match.result : '-';
 
         html += `
@@ -250,7 +247,7 @@ function renderMatches(data) {
 }
 
 /**
- * Renderöi muut veikkaukset
+ * Muut veikkaukset
  */
 function renderOtherPredictions(data) {
     const container = document.getElementById('other-predictions-container');

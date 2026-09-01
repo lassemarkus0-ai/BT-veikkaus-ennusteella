@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     initTabs();
 
-    // Ladataan data.json aina tuoreena
+    // Ladataan data.json aina tuoreena estäen selaimen välimuistitus
     fetch('./data.json?v=' + new Date().getTime())
         .then(response => {
             if (!response.ok) {
@@ -10,21 +10,39 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            console.log('Ladattu data:', data); // Voit tarkistaa tämän selaimen konsolista (F12)
             initApp(data);
         })
         .catch(error => {
             console.error('Virhe:', error);
-            showError('Virhe ladattaessa tietoja. Varmista että data.json on samassa kansiossa.');
+            showError('Virhe ladattaessa tietoja. Varmista, että data.json on samassa kansiossa.');
         });
 });
 
 function initApp(data) {
+    // Varmistetaan pelaajalista: jos "players"-kenttää ei ole, poimitaan pelaajat ensimmäisen ottelun veikkauksista
+    if (!data.players || !Array.isArray(data.players) || data.players.length === 0) {
+        data.players = extractPlayersFromMatches(data.matches);
+    }
+
     updateTopStats(data);
     renderStandings(data);
     renderPredictedStandings(data);
     renderMatches(data);
     renderOtherPredictions(data);
+}
+
+/**
+ * Poimii pelaajien nimet ottelujen predictions-olioista, jos players-taulukkoa ei ole JSONissa
+ */
+function extractPlayersFromMatches(matches) {
+    if (!matches || !Array.isArray(matches)) return [];
+    const playerSet = new Set();
+    matches.forEach(m => {
+        if (m.predictions && typeof m.predictions === 'object') {
+            Object.keys(m.predictions).forEach(player => playerSet.add(player));
+        }
+    });
+    return Array.from(playerSet);
 }
 
 function initTabs() {
@@ -56,7 +74,7 @@ function showError(message) {
 }
 
 /**
- * Päivittää yläosan tilastolaatikot
+ * Päivittää yläosan tilastolaatikot (#player-count, #match-count, #top-score)
  */
 function updateTopStats(data) {
     const players = data.players || [];
@@ -68,10 +86,10 @@ function updateTopStats(data) {
         playerEl.textContent = players.length;
     }
 
-    // 2. Ottelutilasto
+    // 2. Ottelutilasto (pelatut / kaikki)
     let playedCount = 0;
     matches.forEach(m => {
-        if (m.result && String(m.result).trim() !== '') {
+        if (m.result !== undefined && m.result !== null && String(m.result).trim() !== '') {
             playedCount++;
         }
     });
@@ -86,16 +104,17 @@ function updateTopStats(data) {
     players.forEach(p => scores[p] = 0);
 
     matches.forEach(m => {
-        if (m.result && String(m.result).trim() !== '' && m.predictions) {
+        if (m.result !== undefined && m.result !== null && String(m.result).trim() !== '' && m.predictions) {
             Object.keys(m.predictions).forEach(p => {
-                if (m.predictions[p] === m.result) {
+                if (String(m.predictions[p]).trim() === String(m.result).trim()) {
                     scores[p] = (scores[p] || 0) + 1;
                 }
             });
         }
     });
 
-    const maxPoints = Math.max(0, ...Object.values(scores));
+    const scoreValues = Object.values(scores);
+    const maxPoints = scoreValues.length > 0 ? Math.max(0, ...scoreValues) : 0;
     const topEl = document.getElementById('top-score');
     if (topEl) {
         topEl.textContent = `${maxPoints.toFixed(1)} p`;
@@ -118,10 +137,10 @@ function renderStandings(data) {
     let playedMatchesCount = 0;
 
     matches.forEach(match => {
-        if (match.result && String(match.result).trim() !== '' && match.predictions) {
+        if (match.result !== undefined && match.result !== null && String(match.result).trim() !== '' && match.predictions) {
             playedMatchesCount++;
             Object.keys(match.predictions).forEach(p => {
-                if (match.predictions[p] === match.result) {
+                if (String(match.predictions[p]).trim() === String(match.result).trim()) {
                     scores[p] = (scores[p] || 0) + 1;
                 }
             });
@@ -152,9 +171,9 @@ function renderPredictedStandings(data) {
     players.forEach(p => scores[p] = 0);
 
     matches.forEach(match => {
-        if (match.result && String(match.result).trim() !== '' && match.predictions) {
+        if (match.result !== undefined && match.result !== null && String(match.result).trim() !== '' && match.predictions) {
             Object.keys(match.predictions).forEach(p => {
-                if (match.predictions[p] === match.result) {
+                if (String(match.predictions[p]).trim() === String(match.result).trim()) {
                     scores[p] = (scores[p] || 0) + 1;
                 }
             });
@@ -212,14 +231,14 @@ function renderMatches(data) {
 
     let html = '';
     matches.forEach(match => {
-        const isFinished = match.result && String(match.result).trim() !== '';
+        const isFinished = match.result !== undefined && match.result !== null && String(match.result).trim() !== '';
         const resultText = isFinished ? match.result : '-';
 
         html += `
             <div class="match-card ${isFinished ? 'finished' : ''}">
                 <div class="match-header">
                     <span class="match-date">${match.date || ''}</span>
-                    <span class="match-teams">${match.homeTeam} vs ${match.awayTeam}</span>
+                    <span class="match-teams">${match.homeTeam || ''} vs ${match.awayTeam || ''}</span>
                     <span class="match-result">Tulos: <strong>${resultText}</strong></span>
                 </div>
                 <div class="predictions-grid">`;
@@ -227,7 +246,7 @@ function renderMatches(data) {
         if (match.predictions) {
             Object.keys(match.predictions).forEach(player => {
                 const pred = match.predictions[player];
-                const isCorrect = isFinished && pred === match.result;
+                const isCorrect = isFinished && String(pred).trim() === String(match.result).trim();
                 const statusClass = isFinished ? (isCorrect ? 'correct' : 'incorrect') : '';
 
                 html += `

@@ -1,23 +1,39 @@
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("Ladataan data.json...");
+    
     fetch('data.json?v=' + new Date().getTime())
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP-virhe: " + response.status);
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log("Data ladattu onnistuneesti:", data);
             renderStats(data);
             renderStandings(data);
             renderPredictedStandings(data);
             renderMatches(data);
             renderOtherPredictions(data);
         })
-        .catch(error => console.error("Virhe ladattaessa dataa:", error));
+        .catch(error => {
+            console.error("Virhe ladattaessa dataa:", error);
+            document.getElementById('standings-container').innerHTML = 
+                '<p style="color: red;">Datan lataus epäonnistui! Varmista että data.json löytyy ja on oikeassa muodossa.</p>';
+        });
 });
 
-function switchTab(tabName, event) {
+function switchTab(tabName, evt) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-    document.getElementById(`tab-${tabName}`).classList.add('active');
-    if (event && event.target) {
-        event.target.classList.add('active');
+    const selectedTab = document.getElementById(`tab-${tabName}`);
+    if (selectedTab) {
+        selectedTab.classList.add('active');
+    }
+
+    if (evt && evt.target) {
+        evt.target.classList.add('active');
     }
 }
 
@@ -26,7 +42,7 @@ function renderStats(data) {
         document.getElementById('stat-players').textContent = data.players.length;
     }
     if (data.matches) {
-        const played = data.matches.filter(m => m.result).length;
+        const played = data.matches.filter(m => m.result && m.result !== "").length;
         document.getElementById('stat-matches').textContent = `${played} / ${data.matches.length}`;
     }
     if (data.predicted_standings && data.predicted_standings.length > 0) {
@@ -34,7 +50,7 @@ function renderStats(data) {
     }
 }
 
-// 1. Pelkät ottelupisteet
+// 1. Sarjataulukko (Pelkät ottelut)
 function renderStandings(data) {
     const container = document.getElementById('standings-container');
     if (!container || !data.standings) return;
@@ -53,10 +69,13 @@ function renderStandings(data) {
 // 2. Sarjataulukko ennusteella (Ottelut + Muut veikkaukset)
 function renderPredictedStandings(data) {
     const container = document.getElementById('predicted-standings-container');
-    if (!container || !data.predicted_standings) return;
+    if (!container) return;
+
+    const list = data.predicted_standings || data.standings;
+    if (!list) return;
 
     let html = '';
-    data.predicted_standings.forEach((item, index) => {
+    list.forEach((item, index) => {
         html += `
             <div class="standing-row">
                 <div class="standing-player">#${index + 1} ${item.player}</div>
@@ -66,6 +85,7 @@ function renderPredictedStandings(data) {
     container.innerHTML = html;
 }
 
+// 3. Ottelut
 function renderMatches(data) {
     const container = document.getElementById('matches-container');
     if (!container || !data.matches) return;
@@ -79,18 +99,18 @@ function renderMatches(data) {
                         <th>Ottelu</th>
                         <th>Tulos</th>`;
     
-    data.players.forEach(p => { html += `<th>${p}</th>`; });
+    (data.players || []).forEach(p => { html += `<th>${p}</th>`; });
     html += `</tr></thead><tbody>`;
 
     data.matches.forEach(m => {
         const resultBadge = m.result ? `<span class="badge badge-played">${m.result}</span>` : `<span class="badge badge-upcoming">-</span>`;
         html += `
             <tr>
-                <td class="col-date">${m.date}</td>
-                <td class="col-match">${m.homeTeam} - ${m.awayTeam}</td>
+                <td>${m.date || '-'}</td>
+                <td>${m.homeTeam} - ${m.awayTeam}</td>
                 <td>${resultBadge}</td>`;
 
-        data.players.forEach(p => {
+        (data.players || []).forEach(p => {
             const pred = (m.predictions && m.predictions[p]) ? m.predictions[p] : "-";
             const isCorrect = m.result && pred === m.result;
             const predClass = isCorrect ? 'style="color: var(--accent-gold); font-weight: bold;"' : '';
@@ -103,7 +123,7 @@ function renderMatches(data) {
     container.innerHTML = html;
 }
 
-// 3. Muut veikkaukset (Oikea vastaus / Tilanne 2. sarakkeessa)
+// 4. Muut veikkaukset (Oikea vastaus / Tilanne heti 2. sarakkeessa)
 function renderOtherPredictions(data) {
     const container = document.getElementById('other-container');
     if (!container || !data.other_predictions) return;
@@ -116,8 +136,7 @@ function renderOtherPredictions(data) {
                         <th>Veikkauskohde</th>
                         <th>Oikea vastaus / Tilanne</th>`;
 
-    // Pelaajasarakkeet (Asko jne.) Oikea vastaus -sarakkeen jälkeen
-    data.players.forEach(p => { html += `<th>${p}</th>`; });
+    (data.players || []).forEach(p => { html += `<th>${p}</th>`; });
     html += `</tr></thead><tbody>`;
 
     data.other_predictions.forEach(item => {
@@ -127,7 +146,7 @@ function renderOtherPredictions(data) {
                 <td><strong>${item.question}</strong></td>
                 <td><span class="badge badge-played">${leader}</span></td>`;
 
-        data.players.forEach(p => {
+        (data.players || []).forEach(p => {
             const pred = (item.predictions && item.predictions[p]) ? item.predictions[p] : "-";
             html += `<td>${pred}</td>`;
         });

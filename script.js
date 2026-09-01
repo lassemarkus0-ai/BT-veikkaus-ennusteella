@@ -1,76 +1,71 @@
-import json
-import urllib.request
-import sys
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+            renderDashboard(data);
+        })
+        .catch(error => console.error('Virhe ladattaessa dataa:', error));
+});
 
-def fetch_liiga_games():
-    url = "https://liiga.fi/api/v2/games?season=2026"
-    req = urllib.request.Request(
-        url, 
-        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-    )
-    
-    try:
-        with urllib.request.urlopen(req) as response:
-            if response.status == 200:
-                data = json.loads(response.read().decode('utf-8'))
-                if isinstance(data, dict):
-                    return data.get('games', [])
-                return data
-    except Exception as e:
-        print(f"Virhe haettaessa dataa Liigan APIsta: {e}")
-        return []
-    return []
+function renderDashboard(data) {
+    const matches = data.matches || [];
+    const players = data.players || [];
 
-def update_scores():
-    try:
-        with open('data.json', 'r', encoding='utf-8') as f:
-            data = json.load(f)
-    except Exception as e:
-        print(f"Tiedoston data.json luku epäonnistui: {e}")
-        sys.exit(1)
+    // Lasketut ottelut (tunnistaa pelatuksi jos result on 1, X, 2 tai jos maalit on syötetty)
+    const playedMatches = matches.filter(m => {
+        const res = String(m.result || '').trim().toUpperCase();
+        return ['1', 'X', '2'].includes(res) || (m.homeGoals !== undefined && m.homeGoals !== null);
+    });
 
-    liiga_games = fetch_liiga_games()
-    if not liiga_games:
-        print("Ei saatu otteludataa Liigalta.")
-        return
+    // Päivitetään yläpalkin tilastot
+    const playedCountElem = document.getElementById('played-count');
+    if (playedCountElem) {
+        playedCountElem.textContent = `${playedMatches.length} / ${matches.length}`;
+    }
 
-    updated_count = 0
+    // Alustetaan pisteet pelaajille
+    const playerScores = {};
+    players.forEach(p => {
+        playerScores[p.name] = 0;
+    });
 
-    for match in data.get('matches', []):
-        home_target = str(match.get('homeTeam', '')).strip().lower()
-        away_target = str(match.get('awayTeam', '')).strip().lower()
+    // Lasketan pisteet jokaisesta pelatusta ottelusta
+    playedMatches.forEach(match => {
+        const correctResult = String(match.result || '').trim().toUpperCase();
+        
+        if (match.userPredictions) {
+            Object.keys(match.userPredictions).forEach(player => {
+                const pred = String(match.userPredictions[player] || '').trim().toUpperCase();
+                if (pred === correctResult && playerScores.hasOwnProperty(player)) {
+                    playerScores[player] += 1; // 1 piste oikeasta merkistä (1, X, 2)
+                }
+            });
+        }
+    });
 
-        for game in liiga_games:
-            g_home = str(game.get('homeTeam', {}).get('teamName') or game.get('homeTeam', '')).strip().lower()
-            g_away = str(game.get('awayTeam', {}).get('teamName') or game.get('awayTeam', '')).strip().lower()
+    // Päivitetään kärkipisteet yläpalkkiin
+    const maxPoints = Math.max(...Object.values(playerScores), 0);
+    const topPointsElem = document.getElementById('top-points');
+    if (topPointsElem) {
+        topPointsElem.textContent = `${maxPoints.toFixed(1)} p`;
+    }
 
-            if (home_target in g_home or g_home in home_target) and (away_target in g_away or g_away in away_target):
-                is_ended = game.get('ended', False) or game.get('finished', False) or game.get('gameEnded', False)
-                
-                if is_ended:
-                    home_goals = game.get('homeTeam', {}).get('goals')
-                    away_goals = game.get('awayTeam', {}).get('goals')
+    // Renderöidään sarjataulukko
+    renderLeaderboard(players, playerScores);
+}
 
-                    if home_goals is not None and away_goals is not None:
-                        if home_goals > away_goals:
-                            res_sign = "1"
-                        elif away_goals > home_goals:
-                            res_sign = "2"
-                        else:
-                            res_sign = "X"
+function renderLeaderboard(players, playerScores) {
+    const leaderboardBody = document.getElementById('leaderboard-body');
+    if (!leaderboardBody) return;
 
-                        # Syötetään tulos useammassa muodossa yhteensopivuuden varmistamiseksi
-                        match['result'] = res_sign
-                        match['score'] = f"{home_goals}-{away_goals}"
-                        match['homeGoals'] = home_goals
-                        match['awayGoals'] = away_goals
-                        
-                        updated_count += 1
-                        break
+    // Järjestetään pelaajat pisteiden mukaan
+    const sortedPlayers = [...players].sort((a, b) => (playerScores[b.name] || 0) - (playerScores[a.name] || 0));
 
-    with open('data.json', 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-    print(f"Päivitetty data.json valmis. Päivityksiä kohdistui {updated_count} otteluun.")
-
-if __name__ == "__main__":
-    update_scores()
+    leaderboardBody.innerHTML = sortedPlayers.map((player, index) => `
+        <div class="leaderboard-row">
+            <span class="rank">#${index + 1}</span>
+            <span class="player-name">${player.name}</span>
+            <span class="points">${playerScores[player.name] || 0} p</span>
+        </div>
+    `).join('');
+}

@@ -11,13 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             console.log("Data ladattu onnistuneesti:", data);
             
-            // 1. Piilotetaan latausilmoitus
-            const loadingEl = document.getElementById('loading');
-            if (loadingEl) {
-                loadingEl.style.display = 'none';
-            }
-            
-            // 2. Renderöidään osiot
+            // Renderöidään osiot
             try { renderStats(data); } catch (e) { console.error("Virhe renderStats:", e); }
             try { renderStandings(data); } catch (e) { console.error("Virhe renderStandings:", e); }
             try { renderPredictedStandings(data); } catch (e) { console.error("Virhe renderPredictedStandings:", e); }
@@ -26,21 +20,23 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(error => {
             console.error("Virhe ladattaessa dataa:", error);
-            const loadingEl = document.getElementById('loading');
-            if (loadingEl) {
-                loadingEl.innerHTML = '<p style="color: red;">Datan lataus epäonnistui! Varmista että data.json löytyy ja on oikeassa muodossa.</p>';
-            }
+            const containers = ['standings-container', 'predicted-standings-container', 'matches-container', 'other-container'];
+            containers.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = '<p style="color: #ef4444;">Datan lataus epäonnistui! Varmista että data.json on saatavilla.</p>';
+            });
         });
 });
 
-// KORJATTU TAB-FUNKTIO: Vaihtaa näkyvyyden suoraan style.display-määritteellä
 function switchTab(tabName, evt) {
+    // Piilotetaan kaikki välilehdet ja poistetaan active-luokat napelta
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.remove('active');
         content.style.display = 'none';
     });
 
+    // Aktivoidaan valittu välilehti
     const selectedTab = document.getElementById(`tab-${tabName}`);
     if (selectedTab) {
         selectedTab.classList.add('active');
@@ -143,7 +139,7 @@ function renderMatches(data) {
         (data.players || []).forEach(p => {
             const pred = (m.predictions && m.predictions[p]) ? m.predictions[p] : "-";
             const isCorrect = m.result && m.result !== "" && pred === m.result;
-            const predClass = isCorrect ? 'style="color: var(--accent-gold, #ffd700); font-weight: bold;"' : '';
+            const predClass = isCorrect ? 'style="color: var(--accent-gold); font-weight: bold;"' : '';
             html += `<td ${predClass}>${pred}</td>`;
         });
         html += `</tr>`;

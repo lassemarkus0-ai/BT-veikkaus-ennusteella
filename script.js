@@ -12,20 +12,26 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => {
             console.error('Virhe datan latauksessa:', error);
-            const standingsContainer = document.getElementById('standings-container');
-            if (standingsContainer) {
-                standingsContainer.innerHTML = '<p>Virhe ladattaessa tietoja. Tarkista data.json-tiedosto.</p>';
-            }
+            showError('Virhe ladattaessa tietoja. Tarkista data.json-tiedosto.');
         });
 });
 
 function initApp(data) {
     renderStandings(data);
     renderMatches(data);
+    renderOtherPredictions(data);
+}
+
+function showError(message) {
+    const containers = ['standings-container', 'matches-container', 'other-predictions-container'];
+    containers.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = `<p class="error-text">${message}</p>`;
+    });
 }
 
 /**
- * Laskee ja renderöi sarjataulukon automaattisesti
+ * Laskee ja renderöi sarjataulukon automaattisesti ottelutuloksista
  */
 function renderStandings(data) {
     const container = document.getElementById('standings-container');
@@ -49,7 +55,6 @@ function renderStandings(data) {
     let playedMatchesCount = 0;
 
     matches.forEach(match => {
-        // Ottelu katsotaan pelatuksi, jos result-kenttä ei ole tyhjä
         if (match.result && match.result.trim() !== '' && match.predictions) {
             playedMatchesCount++;
             Object.keys(match.predictions).forEach(player => {
@@ -78,7 +83,7 @@ function renderStandingsList(container, standingsList, playedMatchesCount = null
     let html = '';
 
     if (playedMatchesCount === 0) {
-        html += `<p class="info-text">Ei pelattuja otteluita vielä. Sarjataulukko päivittyy, kun ottelutuloksia syötetään.</p>`;
+        html += `<p class="info-text">Ei pelattuja otteluita vielä. Sarjataulukko päivittyy siten mukaisesti, kun tuloksia syötetään.</p>`;
     }
 
     html += '<div class="standings-table">';
@@ -141,6 +146,46 @@ function renderMatches(data) {
                 </div>
             </div>`;
     });
+
+    container.innerHTML = html;
+}
+
+/**
+ * Renderöi Muut veikkaukset -osion turvallisesti
+ */
+function renderOtherPredictions(data) {
+    const container = document.getElementById('other-predictions-container');
+    if (!container) return;
+
+    const otherPreds = data.other_predictions || [];
+
+    if (!otherPreds || otherPreds.length === 0) {
+        container.innerHTML = '<p class="info-text">Ei muita veikkauksia määriteltynä.</p>';
+        return;
+    }
+
+    let html = '<div class="other-predictions-list">';
+    otherPreds.forEach(item => {
+        html += `
+            <div class="other-prediction-card">
+                <h4>${item.title || 'Veikkaus'}</h4>
+                <div class="predictions-grid">`;
+        
+        if (item.predictions) {
+            Object.keys(item.predictions).forEach(player => {
+                html += `
+                    <div class="prediction-item">
+                        <span class="player-name">${player}:</span>
+                        <span class="prediction-value">${item.predictions[player]}</span>
+                    </div>`;
+            });
+        }
+
+        html += `
+                </div>
+            </div>`;
+    });
+    html += '</div>';
 
     container.innerHTML = html;
 }

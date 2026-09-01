@@ -14,7 +14,7 @@
     </header>
 
     <main class="container">
-        <!-- Tilastokortit -->
+        <!-- Yläosan tilastoruudut -->
         <div class="stats-grid">
             <div class="stat-card">
                 <span class="stat-value" id="player-count">0</span>
@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <!-- Välilehtinavigaatio -->
+        <!-- Välilehdet -->
         <nav class="tabs">
             <button class="tab-btn active" data-tab="standings">Sarjataulukko</button>
             <button class="tab-btn" data-tab="predicted">Sarjataulukko ennusteella</button>
@@ -38,7 +38,7 @@
             <button class="tab-btn" data-tab="other">Muut veikkaukset</button>
         </nav>
 
-        <!-- Välilehtien sisällöt -->
+        <!-- Sisällöt -->
         <section id="tab-standings" class="tab-content active">
             <div id="standings-container">Ladataan sarjataulukkoa...</div>
         </section>
@@ -56,6 +56,7 @@
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <!-- Versiointiparametri ?v=2 estää selaimen välimuistiongelman -->
+    <script src="script.js?v=2"></script>
 </body>
 </html>

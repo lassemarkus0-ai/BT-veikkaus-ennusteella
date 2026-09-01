@@ -1,0 +1,33 @@
+name: Automaattinen tulospäivitys
+
+on:
+  schedule:
+    # Ajaa skriptin joka ilta klo 21:30 UTC (23:30 Suomen aikaa)
+    - cron: '30 21 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Kopioidaan repositorio
+      uses: actions/checkout@v4
+
+    - name: Alustetaan Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Haetaan uudet tulokset
+      run: python fetch_results.py
+
+    - name: Tallennetaan muutokset GitHubiin
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add data.json
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Automaattinen ottelutulosten päivitys [skip ci]" && git push)

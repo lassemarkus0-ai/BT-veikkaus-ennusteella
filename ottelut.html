@@ -7,27 +7,42 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="site-header">
-    <h1>BT-VEIKKAUS <span>2026</span></h1>
-    <p class="subtitle">Kärppäpainotteinen BT-kisa</p>
-    <nav class="top-nav">
-      <a href="index.html">Sarjataulukko</a>
-      <a href="ottelut.html" class="active">Ottelut</a>
-      <a href="muut.html">Muut veikkaukset</a>
-    </nav>
-  </header>
 
-  <main class="container">
-    <section class="panel">
-      <h2>Kärppien ottelut ja veikkaukset</h2>
-      <div id="matches-list" class="matches-list"></div>
-    </section>
-  </main>
+<header class="site-header">
+  <h1>BT-VEIKKAUS <span>2026</span></h1>
+  <nav class="top-nav">
+    <a href="index.html">Sarjataulukko</a>
+    <a href="ottelut.html" class="active">Ottelut</a>
+    <a href="muut.html">Muut veikkaukset</a>
+  </nav>
+</header>
 
-  <footer class="site-footer">
-    <small>BT-VEIKKAUS 2026 · epävirallinen Kärppä‑veikkaus</small>
-  </footer>
+<main class="container">
 
-  <script src="script.js"></script>
+  <section class="panel">
+    <h2>Kärppien ottelut</h2>
+    <div id="matches-list"></div>
+  </section>
+
+</main>
+
+<script>
+fetch('data.json')
+  .then(r => r.json())
+  .then(data => {
+    const out = data.matches.map(m => `
+      <div class="match-row">
+        <div>
+          <strong>${m.date}</strong><br>
+          ${m.homeTeam} – ${m.awayTeam}
+        </div>
+        <div class="match-result">${m.result || "–"}</div>
+      </div>
+    `).join('');
+
+    document.getElementById('matches-list').innerHTML = out;
+  });
+</script>
+
 </body>
 </html>

@@ -7,6 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
             renderOtherPredictions(data.other_predictions || []);
         })
         .catch(err => console.error("Virhe ladattaessa data.json:", err));
+
+    // Välilehtien vaihto
+    document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(btn.dataset.tab).classList.add('active');
+        });
+    });
 });
 
 function updateUI(data) {

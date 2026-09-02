@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const path = window.location.pathname;
       if (path.includes('index')) updateUI(data);
       if (path.includes('ottelut')) renderMatches(data.matches || []);
-      if (path.includes('muut')) renderOtherPredictions(data.other_predictions || []);
+      if (path.includes('muut')) renderPredictionsTable(data.other_predictions || []);
     })
     .catch(err => console.error("Virhe ladattaessa data.json:", err));
 });
@@ -65,14 +65,9 @@ function renderMatches(matches) {
   }).join('');
 }
 
-function renderOtherPredictions(predictions) {
-  const container = document.getElementById('other-predictions-list');
-  container.innerHTML = predictions.map(item => `
-    <div class="prediction-block">
-      <h3>${item.question}</h3>
-      <ul>
-        ${Object.entries(item.predictions).map(([player, ans]) =>
-          `<li><strong>${player}:</strong> ${ans}</li>`
-        ).join('')}
-      </ul>
-    </div>
+function renderPredictionsTable(predictions) {
+  const table = document.getElementById('other-predictions-table');
+  const players = Object.keys(predictions[0].predictions);
+  let html = `<tr><th>Veikkauskohde</th>${players.map(p => `<th>${p}</th>`).join('')}</tr>`;
+  predictions.forEach(item => {
+    html += `<tr><td>${item.question}</td>${players.map(p => `<td>${item.predictions

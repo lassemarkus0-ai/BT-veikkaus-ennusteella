@@ -1,1 +1,61 @@
+body {
+  background: #0b0b0b;
+  color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
 
+.site-header {
+  text-align: center;
+  padding: 20px;
+  background: #1a1a1a;
+  border-bottom: 2px solid #ffcc00;
+}
+
+.top-nav a {
+  color: #ffcc00;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.top-nav a.active {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+.panel {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #333;
+}
+
+.leaderboard-row,
+.match-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #333;
+}
+
+.match-result {
+  font-weight: bold;
+  color: #ffcc00;
+}
+
+.predictions-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.predictions-table th,
+.predictions-table td {
+  border: 1px solid #333;
+  padding: 6px;
+}

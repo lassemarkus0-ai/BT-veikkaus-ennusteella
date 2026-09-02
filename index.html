@@ -4,45 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BT-VEIKKAUS 2026</title>
-    <style>
-        body {
-            background: #111;
-            color: #eee;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            text-align: center;
-            padding: 20px;
-        }
-        .stats-grid {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px;
-        }
-        .stat-card {
-            background: #222;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .leaderboard-list {
-            margin: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
+    <header class="site-header">
         <h1>BT-VEIKKAUS <span>2026</span></h1>
         <p class="subtitle">Kärppäpainotteinen BT-kisa</p>
     </header>
 
     <main class="container">
 
-        <div class="stats-grid">
+        <!-- Yläpalkin tilastot -->
+        <section class="stats-grid">
             <div class="stat-card">
                 <span class="stat-value" id="player-count">0</span>
                 <span class="stat-label">Pelaajaa</span>
@@ -52,17 +26,35 @@
                 <span class="stat-label">Ottelua pelattu</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" id="top-points">0.0 p</span>
-                <span class="stat-label">Kärkipistettä</span>
+                <span class="stat-value" id="top-points">0 p</span>
+                <span class="stat-label">Kärkipisteet</span>
             </div>
-        </div>
+        </section>
 
-        <h2>Sarjataulukko</h2>
-        <div id="leaderboard-body"></div>
+        <!-- Sarjataulukko -->
+        <section class="panel">
+            <h2>Sarjataulukko</h2>
+            <div id="leaderboard-body" class="leaderboard-list"></div>
+        </section>
+
+        <!-- Ottelulista -->
+        <section class="panel">
+            <h2>Kärppien ottelut ja veikkaukset</h2>
+            <div id="matches-list" class="matches-list"></div>
+        </section>
+
+        <!-- Muut ennusteet -->
+        <section class="panel">
+            <h2>Muut ennusteet</h2>
+            <div id="other-predictions-list" class="other-predictions-list"></div>
+        </section>
 
     </main>
 
-    <!-- build trigger -->
+    <footer class="site-footer">
+        <small>BT-VEIKKAUS 2026 · epävirallinen Kärppä‑veikkaus</small>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>

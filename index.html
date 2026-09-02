@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BT-VEIKKAUS 2026</title>
-    <link rel="stylesheet" href="style.css">
+    <title>BT‑VEIKKAUS 2026</title>
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
     <header>
-        <h1>BT-VEIKKAUS <span>2026</span></h1>
-        <p class="subtitle">Kärppäpainotteinen BT-kisa</p>
+        <h1>BT‑VEIKKAUS <span>2026</span></h1>
+        <p class="subtitle">Kärppäpainotteinen BT‑kisa</p>
     </header>
 
     <main class="container">
@@ -21,11 +21,11 @@
                 <span class="stat-label">Pelaajaa</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" id="match-count">0 / 0</span>
-                <span class="stat-label">Ottelua pelattu</span>
+                <span class="stat-value" id="match-count">0 / 0</span>
+                <span class="stat-label">Ottelua pelattu</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" id="top-score">0.0 p</span>
+                <span class="stat-value" id="top-score">0.0 p</span>
                 <span class="stat-label">Kärkipistettä</span>
             </div>
         </div>
@@ -33,30 +33,57 @@
         <!-- Välilehdet -->
         <nav class="tabs">
             <button class="tab-btn active" data-tab="standings">Sarjataulukko</button>
-            <button class="tab-btn" data-tab="predicted">Sarjataulukko ennusteella</button>
+            <button class="tab-btn" data-tab="predicted">Sarjataulukko ennusteella</button>
             <button class="tab-btn" data-tab="matches">Ottelut</button>
-            <button class="tab-btn" data-tab="other">Muut veikkaukset</button>
+            <button class="tab-btn" data-tab="other">Muut veikkaukset</button>
         </nav>
 
         <!-- Sisällöt -->
         <section id="tab-standings" class="tab-content active">
-            <div id="standings-container">Ladataan sarjataulukkoa...</div>
+            <div id="standings-container">Ladataan sarjataulukkoa...</div>
         </section>
 
         <section id="tab-predicted" class="tab-content">
-            <div id="predicted-standings-container">Ladataan ennustetta...</div>
+            <div id="predicted-standings-container">Ladataan ennustetta...</div>
         </section>
 
         <section id="tab-matches" class="tab-content">
-            <div id="matches-container">Ladataan otteluita...</div>
+            <div id="matches-container">Ladataan otteluita...</div>
         </section>
 
         <section id="tab-other" class="tab-content">
-            <div id="other-predictions-container">Ladataan muita veikkauksia...</div>
+            <div id="other-predictions-container">Ladataan muita veikkauksia...</div>
         </section>
     </main>
 
-    <!-- Versiointiparametri ?v=2 estää selaimen välimuistiongelman -->
-    <script src="script.js?v=2"></script>
+    <!-- Välimuistin ohitus ja datan lataus -->
+    <script>
+        // Ladataan data.json ja päivitetään luvut
+        fetch('data.json?v=2')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('player-count').textContent = data.players.length;
+                document.getElementById('match-count').textContent = `${data.matches.filter(m => m.result).length} / ${data.matches.length}`;
+                const scores = {};
+                data.players.forEach(p => scores[p] = 0);
+                data.matches.forEach(m => {
+                    if (!m.result) return;
+                    Object.entries(m.predictions).forEach(([player, pred]) => {
+                        if (pred === m.result) scores[player]++;
+                    });
+                });
+                const topScore = Math.max(...Object.values(scores));
+                document.getElementById('top-score').textContent = `${topScore.toFixed(1)} p`;
+                document.getElementById('standings-container').innerHTML =
+                    Object.entries(scores)
+                        .sort((a,b)=>b[1]-a[1])
+                        .map(([n,p],i)=>`<div>#${i+1} ${n} — ${p} p</div>`)
+                        .join('');
+            })
+            .catch(e => {
+                document.getElementById('standings-container').textContent = 'Virhe ladattaessa data.json';
+                console.error(e);
+            });
+    </script>
 </body>
 </html>

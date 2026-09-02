@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(r => r.json())
         .then(data => {
             updateUI(data);
-            renderMatches(data.matches);
-            renderOtherPredictions(data.other_predictions);
+            renderMatches(data.matches || []);
+            renderOtherPredictions(data.other_predictions || []);
         })
         .catch(err => console.error("Virhe ladattaessa data.json:", err));
 });
@@ -13,7 +13,9 @@ function updateUI(data) {
     const matches = data.matches || [];
     const players = data.players || [];
 
-    const playedMatches = matches.filter(m => ["1","X","2"].includes(String(m.result).trim().toUpperCase()));
+    const playedMatches = matches.filter(m =>
+        ["1","X","2"].includes(String(m.result).trim().toUpperCase())
+    );
 
     document.getElementById('player-count').textContent = players.length;
     document.getElementById('played-count').textContent = `${playedMatches.length} / ${matches.length}`;
@@ -23,14 +25,18 @@ function updateUI(data) {
 
     playedMatches.forEach(match => {
         const actual = String(match.result).trim().toUpperCase();
-        Object.entries(match.predictions || {}).forEach(([player, pred]) => {
+        const predictions = match.predictions || {};
+
+        Object.entries(predictions).forEach(([player, pred]) => {
             if (String(pred).trim().toUpperCase() === actual) {
                 scores[player] = (scores[player] || 0) + 1;
             }
         });
     });
 
-    const maxScore = Math.max(...Object.values(scores), 0);
+    const maxScore = Object.values(scores).length
+        ? Math.max(...Object.values(scores))
+        : 0;
     document.getElementById('top-points').textContent = `${maxScore} p`;
 
     renderTable(scores);
@@ -38,11 +44,11 @@ function updateUI(data) {
 
 function renderTable(scores) {
     const container = document.getElementById('leaderboard-body');
-    const sorted = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+    const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
 
     container.innerHTML = sorted.map(([name, points], i) => `
         <div class="leaderboard-row">
-            <span class="rank">#${i+1}</span>
+            <span class="rank">#${i + 1}</span>
             <span class="player-name">${name}</span>
             <span class="points">${points} p</span>
         </div>

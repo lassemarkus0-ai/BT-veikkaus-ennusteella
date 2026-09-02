@@ -9,21 +9,18 @@
 <body>
 
     <header class="site-header">
-        <img src="https://upload.wikimedia.org/wikipedia/en/4/4a/Oulun_K%C3%A4rp%C3%A4t_logo.svg" 
-             alt="Kärpät logo" class="logo">
         <h1>BT-VEIKKAUS <span>2026</span></h1>
-        <p class="subtitle">Kärppäpainotteinen BT-kisa</p>
+        <p class="subtitle">Kärppien runkosarjan BT-veikkauskisa</p>
 
         <nav class="top-nav">
             <a href="#leaderboard-body">Sarjataulukko</a>
             <a href="#matches-list">Ottelut</a>
-            <a href="#other-predictions-list">Ennusteet</a>
+            <a href="#other-predictions-list">Muut ennusteet</a>
         </nav>
     </header>
 
     <main class="container">
 
-        <!-- Yläpalkin tilastot -->
         <section class="stats-grid">
             <div class="stat-card">
                 <span class="stat-value" id="player-count">0</span>
@@ -39,19 +36,16 @@
             </div>
         </section>
 
-        <!-- Sarjataulukko -->
         <section class="panel">
             <h2>Sarjataulukko</h2>
             <div id="leaderboard-body" class="leaderboard-list"></div>
         </section>
 
-        <!-- Ottelulista -->
         <section class="panel">
             <h2>Kärppien ottelut ja veikkaukset</h2>
             <div id="matches-list" class="matches-list"></div>
         </section>
 
-        <!-- Muut ennusteet -->
         <section class="panel">
             <h2>Muut ennusteet</h2>
             <div id="other-predictions-list" class="other-predictions-list"></div>
@@ -64,19 +58,5 @@
     </footer>
 
     <script src="script.js"></script>
-
-    <script>
-        // Smooth scroll nav
-        document.querySelectorAll('.top-nav a').forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                const target = document.querySelector(link.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-    </script>
-
 </body>
 </html>

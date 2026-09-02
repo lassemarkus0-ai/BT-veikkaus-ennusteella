@@ -16,19 +16,16 @@ function updateUI(data) {
     const matches = data.matches || [];
     const players = data.players || [];
 
-    // Lasketan pelatut ottelut (1, X tai 2)
     const playedMatches = matches.filter(m => {
         const res = String(m.result || '').trim().toUpperCase();
         return ['1', 'X', '2'].includes(res);
     });
 
-    // 1. Päivitetään yläpalkin luvut
-    const playedElem = document.getElementById('played-count') || document.querySelector('.stat-card:nth-child(2) .stat-value');
+    const playedElem = document.getElementById('played-count');
     if (playedElem) {
         playedElem.textContent = `${playedMatches.length} / ${matches.length}`;
     }
 
-    // 2. Lasketan pisteet pelaajittain
     const scores = {};
     players.forEach(p => {
         const name = typeof p === 'string' ? p : p.name;
@@ -47,28 +44,20 @@ function updateUI(data) {
         });
     });
 
-    // 3. Päivitetään kärkipisteet yläpalkkiin
     const maxScore = Math.max(...Object.values(scores), 0);
-    const topPointsElem = document.getElementById('top-points') || document.querySelector('.stat-card:nth-child(3) .stat-value');
+    const topPointsElem = document.getElementById('top-points');
     if (topPointsElem) {
         topPointsElem.textContent = `${maxScore.toFixed(1)} p`;
     }
 
-    // 4. Päivitetään sarjataulukko
     renderTable(scores);
 }
 
 function renderTable(scores) {
-    const tableContainer = document.querySelector('.leaderboard-list') || document.getElementById('leaderboard-body');
+    const tableContainer = document.getElementById('leaderboard-body');
     if (!tableContainer) return;
 
     const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-
-    // Jos pelattuja otteluita ei ole
-    if (sorted.length === 0 || Object.values(scores).every(v => v === 0)) {
-        // Pidetään pelaajien nimet näkyvissä 0 pisteellä
-        return;
-    }
 
     let html = '';
     sorted.forEach(([name, points], index) => {

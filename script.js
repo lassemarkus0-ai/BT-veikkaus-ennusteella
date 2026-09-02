@@ -1,74 +1,60 @@
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('data.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Verkkovirhe ladattaessa data.json');
-            }
-            return response.json();
-        })
-        .then(data => {
-            updateUI(data);
-        })
-        .catch(error => console.error('Virhe ladattaessa dataa:', error));
-});
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BT-VEIKKAUS 2026</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-function updateUI(data) {
-    const matches = data.matches || [];
-    const players = data.players || [];
+    <header class="site-header">
+        <h1>BT-VEIKKAUS <span>2026</span></h1>
+        <p class="subtitle">Kärppäpainotteinen BT-kisa</p>
+    </header>
 
-    const playedMatches = matches.filter(m => {
-        const res = String(m.result || '').trim().toUpperCase();
-        return ['1', 'X', '2'].includes(res);
-    });
+    <main class="container">
 
-    const playedElem = document.getElementById('played-count');
-    if (playedElem) {
-        playedElem.textContent = `${playedMatches.length} / ${matches.length}`;
-    }
-
-    const scores = {};
-    players.forEach(p => {
-        const name = typeof p === 'string' ? p : p.name;
-        scores[name] = 0;
-    });
-
-    playedMatches.forEach(match => {
-        const actualResult = String(match.result || '').trim().toUpperCase();
-        const predictions = match.predictions || match.userPredictions || {};
-
-        Object.keys(predictions).forEach(playerName => {
-            const pred = String(predictions[playerName] || '').trim().toUpperCase();
-            if (pred === actualResult) {
-                scores[playerName] = (scores[playerName] || 0) + 1;
-            }
-        });
-    });
-
-    const maxScore = Math.max(...Object.values(scores), 0);
-    const topPointsElem = document.getElementById('top-points');
-    if (topPointsElem) {
-        topPointsElem.textContent = `${maxScore.toFixed(1)} p`;
-    }
-
-    renderTable(scores);
-}
-
-function renderTable(scores) {
-    const tableContainer = document.getElementById('leaderboard-body');
-    if (!tableContainer) return;
-
-    const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-
-    let html = '';
-    sorted.forEach(([name, points], index) => {
-        html += `
-            <div class="leaderboard-row" style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #222;">
-                <span style="font-weight: bold; width: 40px;">#${index + 1}</span>
-                <span style="flex-grow: 1; text-align: left;">${name}</span>
-                <span style="font-weight: bold; color: #ffb703;">${points} p</span>
+        <!-- Yläpalkin tilastot -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-value" id="player-count">0</span>
+                <span class="stat-label">Pelaajaa</span>
             </div>
-        `;
-    });
+            <div class="stat-card">
+                <span class="stat-value" id="played-count">0 / 0</span>
+                <span class="stat-label">Ottelua pelattu</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="top-points">0 p</span>
+                <span class="stat-label">Kärkipisteet</span>
+            </div>
+        </section>
 
-    tableContainer.innerHTML = html;
-}
+        <!-- Sarjataulukko -->
+        <section class="panel">
+            <h2>Sarjataulukko</h2>
+            <div id="leaderboard-body" class="leaderboard-list"></div>
+        </section>
+
+        <!-- Ottelulista -->
+        <section class="panel">
+            <h2>Kärppien ottelut ja veikkaukset</h2>
+            <div id="matches-list" class="matches-list"></div>
+        </section>
+
+        <!-- Muut ennusteet -->
+        <section class="panel">
+            <h2>Muut ennusteet</h2>
+            <div id="other-predictions-list" class="other-predictions-list"></div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <small>BT-VEIKKAUS 2026 · epävirallinen Kärppä‑veikkaus</small>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

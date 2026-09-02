@@ -8,7 +8,6 @@ body {
 
 :root {
     --gold: #ffcc00;
-    --dark: #0b0b0b;
     --panel: #1a1a1a;
     --border: #333;
     --home-bg: #1f1a00;
@@ -21,11 +20,6 @@ body {
     padding: 25px 10px;
     background: var(--panel);
     border-bottom: 2px solid var(--gold);
-}
-
-.logo {
-    width: 90px;
-    margin-bottom: 10px;
 }
 
 .site-header h1 {

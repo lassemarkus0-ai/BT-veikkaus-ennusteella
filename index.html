@@ -10,13 +10,7 @@
 
     <header class="site-header">
         <h1>BT-VEIKKAUS <span>2026</span></h1>
-        <p class="subtitle">Kärppien runkosarjan BT-veikkauskisa</p>
-
-        <nav class="top-nav">
-            <a href="#leaderboard-body">Sarjataulukko</a>
-            <a href="#matches-list">Ottelut</a>
-            <a href="#other-predictions-list">Muut ennusteet</a>
-        </nav>
+        <p class="subtitle">Kärppäpainotteinen BT-kisa</p>
     </header>
 
     <main class="container">
@@ -36,18 +30,28 @@
             </div>
         </section>
 
-        <section class="panel">
+        <!-- Välilehdet -->
+        <div class="tabs">
+            <button class="tab-button active" data-tab="leaderboard">Sarjataulukko</button>
+            <button class="tab-button" data-tab="matches">Ottelut</button>
+            <button class="tab-button" data-tab="predictions">Muut veikkaukset</button>
+        </div>
+
+        <!-- Sarjataulukko -->
+        <section id="leaderboard" class="tab-content active">
             <h2>Sarjataulukko</h2>
             <div id="leaderboard-body" class="leaderboard-list"></div>
         </section>
 
-        <section class="panel">
+        <!-- Ottelut -->
+        <section id="matches" class="tab-content">
             <h2>Kärppien ottelut ja veikkaukset</h2>
             <div id="matches-list" class="matches-list"></div>
         </section>
 
-        <section class="panel">
-            <h2>Muut ennusteet</h2>
+        <!-- Muut veikkaukset -->
+        <section id="predictions" class="tab-content">
+            <h2>Muut veikkaukset</h2>
             <div id="other-predictions-list" class="other-predictions-list"></div>
         </section>
 

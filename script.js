@@ -1,60 +1,92 @@
-<!DOCTYPE html>
-<html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BT-VEIKKAUS 2026</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('data.json')
+        .then(r => r.json())
+        .then(data => {
+            updateUI(data);
+            renderMatches(data.matches);
+            renderOtherPredictions(data.other_predictions);
+        })
+        .catch(err => console.error("Virhe ladattaessa data.json:", err));
+});
 
-    <header class="site-header">
-        <h1>BT-VEIKKAUS <span>2026</span></h1>
-        <p class="subtitle">Kärppäpainotteinen BT-kisa</p>
-    </header>
+function updateUI(data) {
+    const matches = data.matches || [];
+    const players = data.players || [];
 
-    <main class="container">
+    const playedMatches = matches.filter(m => ["1","X","2"].includes(String(m.result).trim().toUpperCase()));
 
-        <!-- Yläpalkin tilastot -->
-        <section class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-value" id="player-count">0</span>
-                <span class="stat-label">Pelaajaa</span>
+    document.getElementById('player-count').textContent = players.length;
+    document.getElementById('played-count').textContent = `${playedMatches.length} / ${matches.length}`;
+
+    const scores = {};
+    players.forEach(p => scores[p] = 0);
+
+    playedMatches.forEach(match => {
+        const actual = String(match.result).trim().toUpperCase();
+        Object.entries(match.predictions || {}).forEach(([player, pred]) => {
+            if (String(pred).trim().toUpperCase() === actual) {
+                scores[player] = (scores[player] || 0) + 1;
+            }
+        });
+    });
+
+    const maxScore = Math.max(...Object.values(scores), 0);
+    document.getElementById('top-points').textContent = `${maxScore} p`;
+
+    renderTable(scores);
+}
+
+function renderTable(scores) {
+    const container = document.getElementById('leaderboard-body');
+    const sorted = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+
+    container.innerHTML = sorted.map(([name, points], i) => `
+        <div class="leaderboard-row">
+            <span class="rank">#${i+1}</span>
+            <span class="player-name">${name}</span>
+            <span class="points">${points} p</span>
+        </div>
+    `).join('');
+}
+
+function renderMatches(matches) {
+    const container = document.getElementById('matches-list');
+
+    container.innerHTML = matches.map(match => {
+        const isHome = match.homeTeam.toLowerCase().includes("kärp");
+        const isPlayed = ["1","X","2"].includes(String(match.result).trim().toUpperCase());
+
+        const rowClass = `
+            match-row
+            ${isHome ? "home" : "away"}
+            ${isPlayed ? "played" : ""}
+        `.trim();
+
+        return `
+            <div class="${rowClass}">
+                <div class="match-info">
+                    <strong>${match.date}</strong><br>
+                    ${match.homeTeam} – ${match.awayTeam}
+                </div>
+                <div class="match-result">
+                    ${match.result ? match.result : "–"}
+                </div>
             </div>
-            <div class="stat-card">
-                <span class="stat-value" id="played-count">0 / 0</span>
-                <span class="stat-label">Ottelua pelattu</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-value" id="top-points">0 p</span>
-                <span class="stat-label">Kärkipisteet</span>
-            </div>
-        </section>
+        `;
+    }).join('');
+}
 
-        <!-- Sarjataulukko -->
-        <section class="panel">
-            <h2>Sarjataulukko</h2>
-            <div id="leaderboard-body" class="leaderboard-list"></div>
-        </section>
+function renderOtherPredictions(predictions) {
+    const container = document.getElementById('other-predictions-list');
 
-        <!-- Ottelulista -->
-        <section class="panel">
-            <h2>Kärppien ottelut ja veikkaukset</h2>
-            <div id="matches-list" class="matches-list"></div>
-        </section>
-
-        <!-- Muut ennusteet -->
-        <section class="panel">
-            <h2>Muut ennusteet</h2>
-            <div id="other-predictions-list" class="other-predictions-list"></div>
-        </section>
-
-    </main>
-
-    <footer class="site-footer">
-        <small>BT-VEIKKAUS 2026 · epävirallinen Kärppä‑veikkaus</small>
-    </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>
+    container.innerHTML = predictions.map(item => `
+        <div class="prediction-block">
+            <h3>${item.question}</h3>
+            <ul>
+                ${Object.entries(item.predictions).map(([player, ans]) =>
+                    `<li><strong>${player}:</strong> ${ans}</li>`
+                ).join('')}
+            </ul>
+        </div>
+    `).join('');
+}

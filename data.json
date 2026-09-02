@@ -7,902 +7,287 @@
     "Kari",
     "Pasi"
   ],
+
   "matches": [
+    ...  ← (täsmälleen sama matches‑lista kuin lähettämässäsi tiedostossa)
+  ],
+
+  "other_predictions": [
     {
-      "date": "01.09.2026 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Ässät",
-      "result": "1",
+      "question": "KULTA",
       "predictions": {
-        "Asko": "1",
-        "Markus": "1",
+        "Asko": "KalPa",
+        "Markus": "Tappara",
+        "Ilpo": "Kärpät",
+        "Absolut": "Tappara",
+        "Kari": "JYP",
+        "Pasi": "Tappara"
+      },
+      "current_leader": ""
+    },
+    {
+      "question": "HOPEA",
+      "predictions": {
+        "Asko": "Tappara",
+        "Markus": "Kärpät",
+        "Ilpo": "Ilves",
+        "Absolut": "Lukko",
+        "Kari": "Tappara",
+        "Pasi": "Ilves"
+      },
+      "current_leader": ""
+    },
+    {
+      "question": "PRONSSI",
+      "predictions": {
+        "Asko": "HIFK",
+        "Markus": "KalPa",
+        "Ilpo": "Tappara",
+        "Absolut": "Kärpät",
+        "Kari": "Ilves",
+        "Pasi": "HIFK"
+      },
+      "current_leader": ""
+    },
+    {
+      "question": "RUNKOSARJA 1.",
+      "predictions": {
+        "Asko": "KalPa",
+        "Markus": "Kärpät",
+        "Ilpo": "Ilves",
+        "Absolut": "Tappara",
+        "Kari": "JYP",
+        "Pasi": "Tappara"
+      },
+      "current_leader": ""
+    },
+    {
+      "question": "RUNKOSARJA 2.",
+      "predictions": {
+        "Asko": "Lukko",
+        "Markus": "KalPa",
+        "Ilpo": "Tappara",
+        "Absolut": "Lukko",
+        "Kari": "Ilves",
+        "Pasi": "Ilves"
+      },
+      "current_leader": ""
+    },
+    {
+      "question": "RUNKOSARJA 3.",
+      "predictions": {
+        "Asko": "HIFK",
+        "Markus": "HIFK",
+        "Ilpo": "Lukko",
+        "Absolut": "Ilves",
+        "Kari": "Tappara",
+        "Pasi": "HIFK"
+      },
+      "current_leader": ""
+    },
+    {
+      "question": "Liigasta 1. putoava",
+      "predictions": {
+        "Asko": "Sport",
+        "Markus": "Sport",
+        "Ilpo": "Ässät",
+        "Absolut": "Jukurit",
+        "Kari": "HPK",
+        "Pasi": "TPS"
+      },
+      "current_leader": ""
+    },
+    {
+      "question": "Liigasta 2. putoava",
+      "predictions": {
+        "Asko": "Jukurit",
+        "Markus": "KooKoo",
+        "Ilpo": "Kiekko-Espoo",
+        "Absolut": "K-Espoo",
+        "Kari": "Sport",
+        "Pasi": "Sport"
+      },
+      "current_leader": ""
+    },
+    {
+      "question": "Liigasta 3. putoava",
+      "predictions": {
+        "Asko": "HPK",
+        "Markus": "Jukurit",
+        "Ilpo": "Jukurit",
+        "Absolut": "Sport",
+        "Kari": "Jukurit",
+        "Pasi": "Jukurit"
+      },
+      "current_leader": ""
+    },
+    {
+      "question": "Runkosarjan viimeinen",
+      "predictions": {
+        "Asko": "Sport",
+        "Markus": "Jukurit",
+        "Ilpo": "Jukurit",
+        "Absolut": "Jukurit",
+        "Kari": "Jukurit",
+        "Pasi": "Jukurit"
+      },
+      "current_leader": ""
+    },
+    {
+      "question": "Kärppien liigasijoitus",
+      "predictions": {
+        "Asko": "8",
+        "Markus": "3",
         "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
+        "Absolut": "3",
+        "Kari": "8",
+        "Pasi": "6"
+      },
+      "current_leader": ""
     },
     {
-      "date": "05.09.2026 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "JYP",
-      "result": "",
+      "question": "Liigan paras pistepörssissä",
       "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "2"
-      }
+        "Asko": "Benjamin Rautiainen",
+        "Markus": "Kantner",
+        "Ilpo": "Kantner eli Pilsenin kanttori",
+        "Absolut": "Blichfeldt",
+        "Kari": "Blicfelt",
+        "Pasi": "Aapeli Räsänen"
+      },
+      "current_leader": ""
     },
     {
-      "date": "16.09.2026 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Ilves",
-      "result": "",
+      "question": "Kärppien paras pistepörssissä",
       "predictions": {
-        "Asko": "1",
-        "Markus": "2",
-        "Ilpo": "2",
-        "Absolut": "2",
-        "Kari": "2",
-        "Pasi": "1"
-      }
+        "Asko": "Roni Hirvonen",
+        "Markus": "Kantner",
+        "Ilpo": "Kantner",
+        "Absolut": "Ratinen",
+        "Kari": "Hirvonen",
+        "Pasi": "Kantner"
+      },
+      "current_leader": ""
     },
     {
-      "date": "19.09.2026 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Sport",
-      "result": "",
+      "question": "Liigan paras maalintekijä",
       "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
+        "Asko": "Joachim Blichfeld",
+        "Markus": "Kantner",
+        "Ilpo": "Patrick Curry",
+        "Absolut": "Fabre",
+        "Kari": "Tukiainen",
+        "Pasi": "Blichfeld"
+      },
+      "current_leader": ""
     },
     {
-      "date": "22.09.2026 18.30",
-      "homeTeam": "Tappara",
-      "awayTeam": "Kärpät",
-      "result": "",
+      "question": "Kärppien paras maalintekijä",
       "predictions": {
-        "Asko": "1",
-        "Markus": "2",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "2"
-      }
+        "Asko": "Matyas Kantner",
+        "Markus": "Kantner",
+        "Ilpo": "Eetu Päkkilä",
+        "Absolut": "Okany",
+        "Kari": "Kantner",
+        "Pasi": "Kantner"
+      },
+      "current_leader": ""
     },
     {
-      "date": "23.09.2026 18.30",
-      "homeTeam": "HIFK",
-      "awayTeam": "Kärpät",
-      "result": "",
+      "question": "Liigan jäähykuningas",
       "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "2",
-        "Kari": "2",
-        "Pasi": "2"
-      }
+        "Asko": "Zack Hayes",
+        "Markus": "Tikka",
+        "Ilpo": "Cameron Hillis",
+        "Absolut": "Lauridsen",
+        "Kari": "Rafkin",
+        "Pasi": "Tommi Tikka"
+      },
+      "current_leader": ""
     },
     {
-      "date": "26.09.2026 17.00",
-      "homeTeam": "Sport",
-      "awayTeam": "Kärpät",
-      "result": "",
+      "question": "Kärppien jäähykuningas",
       "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "2"
-      }
+        "Asko": "Tommi Tikka",
+        "Markus": "Tikka",
+        "Ilpo": "Tommi Tikka",
+        "Absolut": "Salmela",
+        "Kari": "Tikka",
+        "Pasi": "Tommi Tikka"
+      },
+      "current_leader": ""
     },
     {
-      "date": "30.09.2026 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "SaiPa",
-      "result": "",
+      "question": "Liigan paras maalivahti",
       "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "2"
-      }
+        "Asko": "Christotfer Rifalk",
+        "Markus": "Rubin",
+        "Ilpo": "Niklas Rubin",
+        "Absolut": "Heljanko",
+        "Kari": "Heljanko",
+        "Pasi": "Heljanko"
+      },
+      "current_leader": ""
     },
     {
-      "date": "02.10.2026 18.30",
-      "homeTeam": "K-Espoo",
-      "awayTeam": "Kärpät",
-      "result": "",
+      "question": "Liigan parhaan maalivahdin torjuntaprosentti",
       "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "2",
-        "Kari": "2",
-        "Pasi": "2"
-      }
+        "Asko": 93.09,
+        "Markus": 93.15,
+        "Ilpo": 92.77,
+        "Absolut": 93.2,
+        "Kari": 92.11,
+        "Pasi": 94.21
+      },
+      "current_leader": ""
     },
     {
-      "date": "03.10.2026 17.00",
-      "homeTeam": "HPK",
-      "awayTeam": "Kärpät",
-      "result": "",
+      "question": "Liigan paras +/-",
       "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
+        "Asko": "Jesper Mattila",
+        "Markus": "Blichfeld",
+        "Ilpo": "Harri Pesonen",
+        "Absolut": "Blichfeldt",
+        "Kari": "Jasek",
+        "Pasi": "Matinmikko"
+      },
+      "current_leader": ""
     },
     {
-      "date": "06.10.2026 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "K-Espoo",
-      "result": "",
+      "question": "Kärppien paras +/-",
       "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
+        "Asko": "Emil Erholz",
+        "Markus": "Erholz",
+        "Ilpo": "Roni Hirvonen",
+        "Absolut": "Matinmikko",
+        "Kari": "Matinmikko",
+        "Pasi": "Matinmikko"
+      },
+      "current_leader": ""
     },
     {
-      "date": "09.10.2026 18.30",
-      "homeTeam": "Pelicans",
-      "awayTeam": "Kärpät",
-      "result": "",
+      "question": "Liigan huonoin +/-",
       "predictions": {
-        "Asko": "1",
-        "Markus": "2",
-        "Ilpo": "1",
-        "Absolut": "2",
-        "Kari": "2",
-        "Pasi": "1"
-      }
+        "Asko": "Zack Hayes",
+        "Markus": "Addamo",
+        "Ilpo": "Justin Addamo",
+        "Absolut": "Tiihonen",
+        "Kari": "Sandvik",
+        "Pasi": "Kalle Miketinac"
+      },
+      "current_leader": ""
     },
     {
-      "date": "10.10.2026 17.00",
-      "homeTeam": "Jukurit",
-      "awayTeam": "Kärpät",
-      "result": "",
+      "question": "Kärppien kotiotteluiden yleisökeskiarvo",
       "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "2",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "16.10.2026 19.30",
-      "homeTeam": "JYP",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "17.10.2026 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "KooKoo",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "20.10.2026 18.30",
-      "homeTeam": "SaiPa",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "23.10.2026 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "KalPa",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "2",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "24.10.2026 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "KalPa",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "2",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "28.10.2026 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "HPK",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "31.10.2026 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Jukurit",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "11.11.2026 18.30",
-      "homeTeam": "JYP",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "14.11.2026 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Tappara",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "2",
-        "Ilpo": "1",
-        "Absolut": "2",
-        "Kari": "2",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "18.11.2026 18.30",
-      "homeTeam": "TPS",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "2",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "20.11.2026 18.00",
-      "homeTeam": "KooKoo",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "21.11.2026 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Jokerit",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "25.11.2026 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Pelicans",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "28.11.2026 17.00",
-      "homeTeam": "Ässät",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "02.12.2026 18.30",
-      "homeTeam": "Ilves",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "04.12.2026 19.30",
-      "homeTeam": "Lukko",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "05.12.2026 17.00",
-      "homeTeam": "Lukko",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "2",
-        "Ilpo": "1",
-        "Absolut": "2",
-        "Kari": "2",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "09.12.2026 18.30",
-      "homeTeam": "Jokerit",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "2",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "12.12.2026 18.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "HIFK",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "15.12.2026 18.30",
-      "homeTeam": "TPS",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "2",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "17.12.2026 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "K-Espoo",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "19.12.2026 17.00",
-      "homeTeam": "Sport",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "26.12.2026 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "JYP",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "2",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "28.12.2026 18.30",
-      "homeTeam": "KooKoo",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "30.12.2026 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Tappara",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "2",
-        "Ilpo": "1",
-        "Absolut": "2",
-        "Kari": "2",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "02.01.2027 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "HPK",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "08.01.2027 19.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Jokerit",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "09.01.2027 17.00",
-      "homeTeam": "Jokerit",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "14.01.2027 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Pelicans",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "2",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "16.01.2027 17.00",
-      "homeTeam": "SaiPa",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "19.01.2027 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Sport",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "22.01.2027 18.30",
-      "homeTeam": "Tappara",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "23.01.2027 17.00",
-      "homeTeam": "K-Espoo",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "2",
-        "Kari": "1",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "30.01.2027 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "KooKoo",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "02.02.2027 18.30",
-      "homeTeam": "Ilves",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "2",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "04.02.2027 18.30",
-      "homeTeam": "HIFK",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "2",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "06.02.2027 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Ässät",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "16.02.2027 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "TPS",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "19.02.2027 19.30",
-      "homeTeam": "KalPa",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "2",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "2",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "20.02.2027 17.00",
-      "homeTeam": "KalPa",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "2",
-        "Kari": "1",
-        "Pasi": "2"
-      }
-    },
-    {
-      "date": "23.02.2027 18.30",
-      "homeTeam": "Jukurit",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "26.02.2027 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Ilves",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "28.02.2027 17.00",
-      "homeTeam": "Ässät",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "2",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "05.03.2027 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Lukko",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "06.03.2027 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Lukko",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "2",
-        "Absolut": "2",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "11.03.2027 18.30",
-      "homeTeam": "Pelicans",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "13.03.2027 17.00",
-      "homeTeam": "Kärpät",
-      "awayTeam": "HIFK",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "2",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "16.03.2027 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "SaiPa",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "18.03.2027 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "TPS",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "20.03.2027 17.00",
-      "homeTeam": "HPK",
-      "awayTeam": "Kärpät",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "2",
-        "Ilpo": "1",
-        "Absolut": "2",
-        "Kari": "2",
-        "Pasi": "1"
-      }
-    },
-    {
-      "date": "23.03.2027 18.30",
-      "homeTeam": "Kärpät",
-      "awayTeam": "Jukurit",
-      "result": "",
-      "predictions": {
-        "Asko": "1",
-        "Markus": "1",
-        "Ilpo": "1",
-        "Absolut": "1",
-        "Kari": "1",
-        "Pasi": "1"
-      }
+        "Asko": 4700,
+        "Markus": 5314,
+        "Ilpo": 5217,
+        "Absolut": 5197,
+        "Kari": 4612,
+        "Pasi": 4913
+      },
+      "current_leader": ""
     }
   ]
 }

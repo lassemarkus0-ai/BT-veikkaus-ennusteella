@@ -1,28 +1,36 @@
 /* Yleinen ulkoasu */
 body {
-    background: #0f0f0f;
-    color: #e6e6e6;
+    background: #0b0b0b;
+    color: #f0f0f0;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+}
+
+/* Kärppä-teema värit */
+:root {
+    --gold: #ffcc00;
+    --dark: #0b0b0b;
+    --panel: #1a1a1a;
+    --border: #333;
 }
 
 /* Header */
 .site-header {
     text-align: center;
     padding: 25px 10px;
-    background: #1a1a1a;
-    border-bottom: 2px solid #333;
+    background: var(--panel);
+    border-bottom: 2px solid var(--gold);
 }
 
 .site-header h1 {
-    font-size: 32px;
+    font-size: 34px;
     margin: 0;
     font-weight: bold;
 }
 
 .site-header span {
-    color: #ffb703;
+    color: var(--gold);
 }
 
 .subtitle {
@@ -48,17 +56,17 @@ body {
 
 .stat-card {
     flex: 1;
-    background: #1e1e1e;
+    background: var(--panel);
     padding: 15px;
     border-radius: 10px;
     text-align: center;
-    border: 1px solid #333;
+    border: 1px solid var(--border);
 }
 
 .stat-value {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: bold;
-    color: #ffb703;
+    color: var(--gold);
 }
 
 .stat-label {
@@ -68,16 +76,16 @@ body {
 
 /* Panelit */
 .panel {
-    background: #1a1a1a;
+    background: var(--panel);
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 25px;
-    border: 1px solid #333;
+    border: 1px solid var(--border);
 }
 
 .panel h2 {
     margin-top: 0;
-    color: #ffb703;
+    color: var(--gold);
 }
 
 /* Sarjataulukko */
@@ -85,12 +93,13 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 12px 5px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border);
 }
 
 .rank {
     width: 40px;
     font-weight: bold;
+    color: var(--gold);
 }
 
 .player-name {
@@ -99,15 +108,18 @@ body {
 
 .points {
     font-weight: bold;
-    color: #ffb703;
+    color: var(--gold);
 }
 
 /* Ottelulista */
 .match-row {
     padding: 12px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
+    background: #141414;
+    border-radius: 6px;
+    margin-bottom: 8px;
 }
 
 .match-info {
@@ -117,19 +129,19 @@ body {
 .match-result {
     font-size: 14px;
     font-weight: bold;
-    color: #ffb703;
+    color: var(--gold);
 }
 
 /* Muut ennusteet */
 .prediction-block {
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border);
 }
 
 .prediction-block h3 {
     margin: 0 0 10px 0;
-    color: #ffb703;
+    color: var(--gold);
 }
 
 .prediction-block ul {
@@ -146,8 +158,8 @@ body {
 .site-footer {
     text-align: center;
     padding: 15px;
-    background: #1a1a1a;
-    border-top: 2px solid #333;
+    background: var(--panel);
+    border-top: 2px solid var(--gold);
     font-size: 12px;
     color: #aaa;
 }

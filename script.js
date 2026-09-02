@@ -2,18 +2,18 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch('data.json')
     .then(r => r.json())
     .then(data => {
-      const path = window.location.pathname;
-      if (path.includes('index')) updateUI(data);
-      if (path.includes('ottelut')) renderMatches(data.matches || []);
-      if (path.includes('muut')) renderPredictionsTable(data.other_predictions || []);
+      const page = window.location.pathname;
+      if (page.includes('index')) updateUI(data);
+      if (page.includes('ottelut')) renderMatches(data.matches);
+      if (page.includes('muut')) renderPredictionsTable(data.other_predictions);
     })
-    .catch(err => console.error("Virhe ladattaessa data.json:", err));
+    .catch(err => console.error('Virhe ladattaessa data.json:', err));
 });
 
 function updateUI(data) {
   const matches = data.matches || [];
   const players = data.players || [];
-  const playedMatches = matches.filter(m => ["1","X","2"].includes(String(m.result).trim().toUpperCase()));
+  const playedMatches = matches.filter(m => ['1','X','2'].includes(String(m.result).trim().toUpperCase()));
 
   document.getElementById('player-count').textContent = players.length;
   document.getElementById('played-count').textContent = `${playedMatches.length} / ${matches.length}`;
@@ -50,16 +50,16 @@ function renderTable(scores) {
 function renderMatches(matches) {
   const container = document.getElementById('matches-list');
   container.innerHTML = matches.map(match => {
-    const isHome = match.homeTeam.toLowerCase().includes("kärp");
-    const isPlayed = ["1","X","2"].includes(String(match.result).trim().toUpperCase());
-    const rowClass = `match-row ${isHome ? "home" : "away"} ${isPlayed ? "played" : ""}`.trim();
+    const isHome = match.homeTeam.toLowerCase().includes('kärp');
+    const isPlayed = ['1','X','2'].includes(String(match.result).trim().toUpperCase());
+    const rowClass = `match-row ${isHome ? 'home' : 'away'} ${isPlayed ? 'played' : ''}`.trim();
     return `
       <div class="${rowClass}">
         <div class="match-info">
           <strong>${match.date}</strong><br>
           ${match.homeTeam} – ${match.awayTeam}
         </div>
-        <div class="match-result">${match.result || "–"}</div>
+        <div class="match-result">${match.result || '–'}</div>
       </div>
     `;
   }).join('');
@@ -68,6 +68,4 @@ function renderMatches(matches) {
 function renderPredictionsTable(predictions) {
   const table = document.getElementById('other-predictions-table');
   const players = Object.keys(predictions[0].predictions);
-  let html = `<tr><th>Veikkauskohde</th>${players.map(p => `<th>${p}</th>`).join('')}</tr>`;
-  predictions.forEach(item => {
-    html += `<tr><td>${item.question}</td>${players.map(p => `<td>${item.predictions
+  let

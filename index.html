@@ -9,8 +9,16 @@
 <body>
 
     <header class="site-header">
+        <img src="https://upload.wikimedia.org/wikipedia/en/4/4a/Oulun_K%C3%A4rp%C3%A4t_logo.svg" 
+             alt="Kärpät logo" class="logo">
         <h1>BT-VEIKKAUS <span>2026</span></h1>
         <p class="subtitle">Kärppäpainotteinen BT-kisa</p>
+
+        <nav class="top-nav">
+            <a href="#leaderboard-body">Sarjataulukko</a>
+            <a href="#matches-list">Ottelut</a>
+            <a href="#other-predictions-list">Ennusteet</a>
+        </nav>
     </header>
 
     <main class="container">
@@ -56,5 +64,19 @@
     </footer>
 
     <script src="script.js"></script>
+
+    <script>
+        // Smooth scroll nav
+        document.querySelectorAll('.top-nav a').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
